@@ -261,7 +261,7 @@
                 try {
                     const mediaType = mediaFile.type.startsWith('image/') ? 'image' : 'video';
                     // Using a simplified path for public uploads
-                    const storageRef = ref(storage, `uploads/${Date.now()}-${mediaFile.name}`);
+                    const storageRef = ref(storage, `media_files/${Date.now()}-${mediaFile.name}`);
                     
                     await uploadBytes(storageRef, mediaFile);
                     const mediaUrl = await getDownloadURL(storageRef);
@@ -278,7 +278,7 @@
 
                 } catch (error) {
                     console.error("Error uploading file or adding document: ", error);
-                    alert(`Upload failed: ${error.message}. Please check your network and Firebase Storage rules.`);
+                    alert(`Upload Failed!\nError: ${error.code}\n\nPlease check your Firebase Storage Rules. They should allow writes for authenticated users. Example: 'allow write: if request.auth != null;'`);
                 } finally {
                     setLoading(false);
                 }
