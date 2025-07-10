@@ -260,9 +260,8 @@
             if (author && title && poem && mediaFile) {
                 try {
                     const mediaType = mediaFile.type.startsWith('image/') ? 'image' : 'video';
-                    // The storage path must be accessible based on your Firebase Storage rules.
-                    // A common public path is used here.
-                    const storageRef = ref(storage, `public_media/${Date.now()}-${mediaFile.name}`);
+                    // Using a simplified path for public uploads
+                    const storageRef = ref(storage, `uploads/${Date.now()}-${mediaFile.name}`);
                     
                     await uploadBytes(storageRef, mediaFile);
                     const mediaUrl = await getDownloadURL(storageRef);
@@ -279,7 +278,7 @@
 
                 } catch (error) {
                     console.error("Error uploading file or adding document: ", error);
-                    alert("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন। আপনার Firebase Storage Rules ঠিক আছে কিনা তা পরীক্ষা করুন।");
+                    alert(`Upload failed: ${error.message}. Please check your network and Firebase Storage rules.`);
                 } finally {
                     setLoading(false);
                 }
